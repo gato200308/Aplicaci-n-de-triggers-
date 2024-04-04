@@ -1,0 +1,12 @@
+CREATE DEFINER=root@localhost TRIGGER factura_AFTER_INSERT_INVENTARIO AFTER INSERT ON factura FOR EACH ROW
+BEGIN
+  DECLARE cantidadVendida int;
+  DECLARE idProducto int;
+
+  SET cantidadVendida = NEW.cantidad;
+  SET idProducto = NEW.idProducto;
+
+  UPDATE inventario
+  SET cantidad = cantidad - cantidadVendida
+  WHERE idProducto = idProducto;
+END 
